@@ -1,0 +1,72 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
+\begin{thebibliography}{FQRM{\etalchar{+}}16}
+	
+	\bibitem[MRT]{mao2021exact}
+	Cheng Mao and Mark Rudelson and Konstantin Tikhomirov.
+	\newblock Exact Matching of Random Graphs with Constant Correlation.
+	\newblock {\em arXiv preprint arXiv:2110.05000}, 2021.
+	
+	\bibitem[Bab16]{babai2016graph}
+	L{\'a}szl{\'o} Babai.
+	\newblock Graph isomorphism in quasipolynomial time.
+	\newblock In {\em Proceedings of the forty-eighth annual ACM symposium on
+		Theory of Computing}, pages 684--697, 2016.
+	
+	\bibitem[BCL{\etalchar{+}}19]{barak2019nearly}
+	Boaz Barak, Chi-Ning Chou, Zhixian Lei, Tselil Schramm, and Yueqi Sheng.
+	\newblock (nearly) efficient algorithms for the graph matching problem on
+	correlated random graphs.
+	\newblock In {\em Advances in Neural Information Processing Systems}, pages
+	9190--9198, 2019.
+	
+	\bibitem[BCPP98]{burkard1998quadratic}
+	Rainer~E Burkard, Eranda Cela, Panos~M Pardalos, and Leonidas~S Pitsoulis.
+	\newblock The quadratic assignment problem.
+	\newblock In {\em Handbook of combinatorial optimization}, pages 1713--1809.
+	Springer, 1998.
+	
+	
+	
+	\bibitem[DMWX21]{DMWX18}
+	Jian Ding, Zongming Ma, Yihong Wu, and Jiaming Xu.
+	\newblock Efficient random graph matching via degree profiles.
+	\newblock {\em Probability Theory and Related Fields}, 179(1):29--115, 2021.
+	
+	\bibitem[FMWX19]{FMWX19b}
+	Zhou Fan, Cheng Mao, Yihong Wu, and Jiaming Xu.
+	\newblock Spectral graph matching and regularized quadratic relaxations {II}:
+	{E}rd{\H{o}}s--{R}\'enyi graphs and universality.
+	\newblock {\em arXiv preprint arXiv:1907.08883}, 2019.
+	
+	
+	\bibitem[GML21]{ganassali2021correlation}
+	Luca Ganassali, Laurent Massouli{\'e}, and Marc Lelarge.
+	\newblock Correlation detection in trees for partial graph alignment.
+	\newblock {\em arXiv preprint arXiv:2107.07623}, 2021.
+	
+	\bibitem[MRT21]{pmlr-v134-mrt}
+	Cheng Mao, Mark Rudelson, and Konstantin Tikhomirov.
+	\newblock Random graph matching with improved noise robustness.
+	\newblock In {\em Proceedings of Thirty Fourth Conference on Learning Theory},
+	volume 134 of {\em Proceedings of Machine Learning Research}, pages
+	3296--3329. PMLR, 15--19 Aug 2021.
+	
+	\bibitem[MX20]{mossel2020seeded}
+	Elchanan Mossel and Jiaming Xu.
+	\newblock Seeded graph matching via large neighborhood statistics.
+	\newblock {\em Random Structures \& Algorithms}, 57(3):570--611, 2020.
+	
+	\bibitem[PRW94]{Pardalos94thequadratic}
+	Panos~M. Pardalos, Franz Rendl, and Henry Wolkowicz.
+	\newblock The quadratic assignment problem: A survey and recent developments.
+	\newblock In {\em In Proceedings of the DIMACS Workshop on Quadratic Assignment
+		Problems, volume 16 of DIMACS Series in Discrete Mathematics and Theoretical
+		Computer Science}, pages 1--42. American Mathematical Society, 1994.
+	
+	\bibitem[WXY21]{wu2021settling}
+	Yihong Wu, Jiaming Xu, and Sophie~H. Yu.
+	\newblock Settling the sharp reconstruction thresholds of random graph
+	matching.
+	\newblock {\em arXiv preprint2102.00082}, 2021.
+	
+\end{thebibliography}

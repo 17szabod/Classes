@@ -1,0 +1,149 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{epsfig}
+
+\newcommand{\handout}[5]{
+	\noindent
+	\begin{center}
+		\framebox{
+			\vbox{
+				\hbox to 5.78in { {\bf MATH888: High-dimensional probability and statistics } \hfill #2 }
+				\vspace{4mm}
+				\hbox to 5.78in { {\Large \hfill #5  \hfill} }
+				\vspace{2mm}
+				\hbox to 5.78in { {\em #3 \hfill #4} }
+			}
+		}
+	\end{center}
+	\vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{Scribe: #4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+% 1-inch margins, from fullpage.sty by H.Partl, Version 2, Dec. 15, 1988.
+\topmargin 0pt
+\advance \topmargin by -\headheight
+\advance \topmargin by -\headsep
+\textheight 8.9in
+\oddsidemargin 0pt
+\evensidemargin \oddsidemargin
+\marginparwidth 0.5in
+\textwidth 6.5in
+
+\parindent 0in
+\parskip 1.5ex
+%\renewcommand{\baselinestretch}{1.25}
+
+\begin{document}
+	
+	\lecture{15 --- October 11, 2021}{Fall 2021}{Sebastien Roch, UW-Madison}{Daniel Szabo}
+	
+	\section{Overview}
+	
+	In the last lecture we started to apply our tail bounds for the norm of sub-gaussian vectors by using the covariance of a random vector to bound how fast mean estimation of i.i.d sub-gaussians can converge.
+	
+	In this lecture we begin by reviewing the basics of linear regression, and then discuss some applications of these bounds in the context of regression.
+	
+	\section{Linear Regression}
+	
+	The setting for linear regression is as follows.
+	\begin{itemize}
+		\item Let $ \Theta^*\in \mathbb{R}^p $ be an unknown random vector that we are trying to recover.
+		\item Let $ f(X) = X^T\Theta^* $ for $ X\in \mathbb{R}^p $.
+		\item Make $ n $ noisy observations $ (X_i, y_i) $ where $ y_i = f(X_i) + \varepsilon_i $ for $ \varepsilon_i $ a mean zero real valued random variable for $ i=1,2,\ldots,n $.
+	\end{itemize}
+	Our goal is then to use these observations to recover $ \Theta^* $. For us, this will mean finding a $ \hat \Theta\in \mathbb{R}^p $ that minimizes the mean squared error of $ \hat{f_n}(X)=X^T\hat \Theta $ where
+	\begin{equation}\label{eq:MSE}
+		MSE(\hat f_n) = \frac{1}{n}\sum_{i=1}^n (\hat{f_n}(X_i) - f(X_i))^2.
+	\end{equation}
+	There are other potential goals, such as restricting to sparse $ \hat \Theta $ by looking at the $ 0 $ norm or the $ 1 $ norm, or even minimizing the expected MSE over a random input $ X $ that we won't consider. There is an exact characterization of this $ \hat \Theta $.
+	
+	\subsection{Least Squares Solution}
+	
+	Let $ \mathbb{X}\in \mathbb{R}^{n\times p} $ be the matrix with $ X_i $ in each row, and $ Y = [y_1,y_2,\ldots ,y_n] $. Then minimizing equation (\ref{eq:MSE}) is equivalent to finding 
+	\begin{equation}\label{eq:LS}
+		\min_{\hat \Theta\in \mathbb{R}} \| Y - \mathbb{X}\hat{\Theta} \|_2^2.
+	\end{equation}
+	The following theorem characterizes the solutions to this equation.
+	
+	\begin{theorem}\label{thm:lstsq}
+		Let $ \hat \Theta^{LS} $ be a solution to (\ref{eq:LS}). Then it must satisfy the normal equations, namely
+		\begin{equation}\label{eq:normal_eq}
+			\mathbb{X}^T\mathbb{X} \hat \Theta^{LS} = \mathbb{X}^T Y.
+		\end{equation}
+		We can also choose a unique $ \hat \Theta^{LS} = \mathbb{X}^\dagger Y $ that minimizes $ \| \hat \Theta^{LS} \|_2 $.
+	\end{theorem}
+
+	Recall the pseudoinverse of a matrix $ A\in \mathbb{R}^{n\times p} $ with singular value decomposition $ A=USV^T $ is $ A^\dagger=V^TS^\dagger U $ where $ S^\dagger $ is the diagonal matrix made up of $ s_{ii} = \begin{cases}
+		1/s_{ii}\quad \text{if }s_{ii}>0\\
+		0\quad \text{else}
+	\end{cases} $ for $ i=1,\ldots,n $. Here $ U\in \mathbb{R}^{n\times n} $ and $ V\in \mathbb{R}^{p\times p} $ are orthogonal matrices.
+
+	\begin{proof}
+		Because of the convexity of $ \|\cdot \|_2^2 $, (\ref{eq:LS}) is just minimizing a convex function composed with a linear one and therefore a convex problem itself. Thus the minimum satisfies $ \nabla_\Theta \| Y - \mathbb{X}\Theta \|_2^2 = 0 $. Simple calculations show
+		\begin{equation*}
+			\nabla_\Theta \| Y - \mathbb{X}\Theta \|_2^2 = \nabla_\Theta (\|Y\|_2^2 - 2\mathbb{X}^T\Theta^T Y + \Theta^T\mathbb{X}^T\mathbb{X}\Theta ) = 2\mathbb{X}^T\mathbb{X}\Theta - 2\mathbb{X}^T Y
+		\end{equation*}
+	and thus $ \nabla_{\hat \Theta^{LS}} \| Y - \mathbb{X}\hat \Theta^{LS} \|_2^2 = 0 \iff \mathbb{X}^T\mathbb{X} \hat \Theta^{LS} = \mathbb{X}^T Y $, which is exactly the normal equations (\ref{eq:normal_eq}).
+	
+	If the solution to this is not unique, we want to find $ \min \|\Theta\|^2 $ subject to (\ref{eq:normal_eq}). To do so we can use the SVD of $ \mathbb{X} = USV^T $ to see
+	\begin{align*}
+		&\mathbb{X}^T\mathbb{X} \Theta = \mathbb{X}^T Y\\
+		\iff &VSU^TUSV^T \Theta = VSU^T Y\\
+		\iff &V^TVS^2V^T \Theta = SU^T Y\\
+		\iff &S^2V^T \Theta = SU^T Y.
+	\end{align*}
+	Substituting $ Z=V^T\Theta, W=U^TY $ we can see (\ref{eq:normal_eq}) is equivalent to $ S^2Z= SW $ with $ \|Z\|_2^2 = \|\Theta\|_2^2 $ because $ V $ is orthogonal. For any $ i=1,\ldots,n $, if $ s_{ii} $ is $ 0 $, we have no constraint on the corresponding $ z_i $ which means we would choose $ z_i=0 $ to minimize $ \|\Theta\|_2^2 $. Otherwise we need $ z_i = \frac{1}{s_{ii}} w_i $, which is exactly the formula for $ S^\dagger $. Thus
+	\begin{align*}
+		Z = S^\dagger W \implies \Theta = VS^\dagger U^T Y = \mathbb{X}^\dagger Y.
+	\end{align*}
+	\end{proof}
+
+	\section{Assessing Least Squares on Sub-Gaussian Errors}
+	
+	We can now start applying the bounds from previous lectures to analyze how accurate the MSE of $ \hat \Theta $ will be. Recall for our setting equation (\ref{eq:MSE}) is equivalent to 
+	\begin{equation}\label{eq:lstsqmse}
+		MSE(\mathbb{X}\hat{\Theta}^{LS}) = \frac{1}{n}\|\mathbb{X}\hat{\Theta}^{LS} - \mathbb{X}\Theta^*\|_2^2.
+	\end{equation}
+	
+	\begin{theorem}
+		Suppose $ \varepsilon = [\varepsilon_1,\varepsilon_2,\ldots,\varepsilon_n]^T $ is sub-gaussian with $ \|\varepsilon\|_{\psi_2}\leq K $. Then 
+		\[ MSE(\mathbb{X}\hat{\Theta}^{LS}) \lesssim \frac{K^2}{n}\left( \text{rank}(\mathbb{X}) + \log(1/\delta) \right)\quad w.p. ~ 1-\delta \]
+	\end{theorem}
+	
+	Note that in the high dimensional case when $ p \gg n $, $ \text{rank}(\mathbb{X})\approx n $, so this bound is not very meaningful; all it says is the error is bounded by a large constant that does not converge to $ 0 $.
+	
+	\begin{proof}
+		Plugging the result of Theorem (\ref{thm:lstsq}) into equation (\ref{eq:lstsqmse}),
+		\begin{align*}
+			\mathbb{X}\hat{\Theta}^{LS} - \mathbb{X}\Theta^* &= \mathbb{X}\mathbb{X}^\dagger Y - \mathbb{X}\Theta^*\\
+			&= \mathbb{X}\mathbb{X}^\dagger (\mathbb{X} \Theta^* + \varepsilon) - \mathbb{X}\Theta^*\\
+			&= (USV^TVS^\dagger U^TUSV^T - \mathbb{X}) \Theta^* + \mathbb{X}\mathbb{X}^\dagger \varepsilon\\
+			&= (USV^T - \mathbb{X}) \Theta^* + \mathbb{X}\mathbb{X}^\dagger \varepsilon\\
+			&= \mathbb{X}\mathbb{X}^\dagger \varepsilon.
+		\end{align*}
+	In other words, minimizing (\ref{eq:lstsqmse}) is equivalent to minimizing $ \| \mathbb{X}\mathbb{X}^\dagger \varepsilon \|_2^2 $, which is exactly the form we saw in the previous two lectures. There we showed
+	\begin{equation*}
+		\mathbb{P}\left(\frac{1}{n}\|\mathbb{X}\mathbb{X}^\dagger \varepsilon\|_2^2 \ge \frac{CK^2}{n}\|\mathbb{X}\mathbb{X}^\dagger \|_F^2 +\frac{t}{n}\right) \le \exp\left(-\frac{ct}{K^2\|\mathbb{X}\mathbb{X}^\dagger\|_2^2}\right)
+	\end{equation*}
+	which is equal to $ \delta $ when $ t=\frac{1}{c}K^2 \|\mathbb{X}\mathbb{X}^\dagger\|_2^2\log (1/\delta) $. Recall that $ \|\mathbb{X}\mathbb{X}^\dagger\|_F^2 $ is just the sum of the squared singular values, which for $ \mathbb{X}\mathbb{X}^\dagger = USS^\dagger U^T $ just counts each nonzero element of $ S $ which is exactly the rank of $ \mathbb{X} $. Meanwhile $ \|\mathbb{X}\mathbb{X}^\dagger\|_2^2=1 $ is just the maximum singular value. Plugging in we have that 
+	\begin{align*}
+		&\mathbb{P}\left(\frac{1}{n}\|\mathbb{X}\hat{\Theta}^{LS} - \mathbb{X}\Theta^*\|_2^2 \ge \frac{CK^2}{n}\text{rank}(\mathbb{X}) +\frac{\frac{1}{c}K^2\log(1/\delta)}{n}\right) \le \delta\\
+		\implies &  \mathbb{P}\left(MSE(\mathbb{X}\hat{\Theta}^{LS}) < \frac{CK^2}{n}\left( \text{rank}(\mathbb{X}) + \log(1/\delta) \right)\right) > 1-\delta.
+	\end{align*}
+	\end{proof}
+	
+\end{document}

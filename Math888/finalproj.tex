@@ -1,0 +1,256 @@
+\documentclass[11pt]{article}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{epsfig}
+\usepackage{bbm}
+\usepackage{multirow}
+\usepackage{algorithmicx,algorithm,algpseudocode}
+\algnewcommand{\Input}{\item[\textbf{Input:}]}
+\algnewcommand{\Output}{\item[\textbf{Output:}]}
+
+\newcommand{\handout}[5]{
+	\noindent
+	\begin{center}
+		\framebox{
+			\vbox{
+				\hbox to 5.78in { {\bf MATH888: High-dimensional probability and statistics } \hfill #2 }
+				\vspace{4mm}
+				\hbox to 5.78in { {\Large \hfill #5  \hfill} }
+				\vspace{2mm}
+				\hbox to 5.78in { {\em #3 \hfill #4} }
+			}
+		}
+	\end{center}
+	\vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{Scribe: #4}{Lecture #1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{theoremIntro}{Theorem}
+\renewcommand*{\thetheoremIntro}{\Alph{theoremIntro}}
+
+% 1-inch margins, from fullpage.sty by H.Partl, Version 2, Dec. 15, 1988.
+\topmargin 0pt
+\advance \topmargin by -\headheight
+\advance \topmargin by -\headsep
+\textheight 8.9in
+\oddsidemargin 0pt
+\evensidemargin \oddsidemargin
+\marginparwidth 0.5in
+\textwidth 6.5in
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+
+\def\Pp{\mathbb P}
+\def\one{\mathbbm{1}}
+\def\E{\mathbb E}
+\def\tr{\ensuremath{\ \text{tr}}}
+\newcommand{\bracks}[2]{\ensuremath{\langle #1, #2\rangle}}
+
+\parindent 0in
+\parskip 1.5ex
+%\renewcommand{\baselinestretch}{1.25}
+\title{Math 888 Final Project:\\Exact Matching of Random Graphs with Constant Correlation}
+\author{Daniel Szabo}
+
+\begin{document}
+	
+	%	\lecture{15 --- October 11, 2021}{Fall 2021}{Sebastien Roch, UW-Madison}{Daniel Szabo}
+	\maketitle
+	
+	\section{Introduction}
+	
+	For my final project I will be summarizing the result of Mao, Rudelson and Tikhomorov on the Exact Matching of Random Graphs with Constant Correlation in \cite{mao2021exact}. Starting from two correlated random graphs $ G $, $ G' $ following the $ G(n,p) $ Erd\H os-R\' enyi model with noise $ \delta $ and a latent permutation $ \pi $, the graph matching problem is to recover $ \pi $ given only $ G' $ and $ G^\pi=(\pi(V), E) $. There are many regimes to study this problem depending on $ p, \delta $ and the level to which we want to recover $ \pi $. They prove that for a constant correlation $ \delta $, $ \varepsilon> 0 $ and some constant $ C $ if $ (1+\varepsilon) \log n \le np \le n^{\frac{1}{C \log \log n}} $ then there is a polynomial time algorithm that recovers $ \pi $ exactly with probability $ 1-o(1) $.
+	
+	\section{Background}
+	
+	We can now explain the above problem in more detail, as well as give a general overview of related work. First it is important to note this problem is very closely related to graph isomorphism \cite{babai2016graph}, one of the few remaining NP-intermediate problems, so a nice exact result in a very general case would be surprising. In general with the random noise from the Erd\H os-R\' enyi model this is an instance of quadratic assignment, which is known to be NP-hard even for the approximation version \cite{Pardalos94thequadratic,burkard1998quadratic}.
+	
+	\subsection{The Correlated Erd\H os-R\' enyi model}
+	
+	The general Erd\H os-R\' enyi model $ G(n,p) $ is a random graph on $ n $ vertices for which each edge is present independently with probability $ p $. For the correlated version, two graphs $ G $ and $ G' $ with adjacencies $ A $ and $ B $ are sampled from $ G(n,p) $ with correlated adjacency matrices following the following relations depending on the noise level $ \delta $:
+	\begin{equation*}
+		\Pp[B_{i,j}=0|A_{i,j}=1] = \delta \iff \E[A_{i,j}B_{i,j}] = p(1-\delta)
+	\end{equation*}
+	In other words the correlation between any particular edge of $ G $ and its permuted version $ G^\pi $ is $ 1-\delta $. As is usual for these models, to have any chance of recovering the permutation of $ \pi $ we need the graphs to be connected, which is almost surely the case for a single graph if $ np\geq (1+\varepsilon)\log n $, and for the correlated version if $ np(1-\delta) \geq (1+\varepsilon)\log n $ for $ n $ large enough. We will look at the regime where $ \delta $ is a constant, so the bound $ np\geq (1+\varepsilon)\log n $ is sufficient.
+	\subsection{Related Results}
+	For exact recovery, this is the first algorithm that handles constant $ \delta $ in polynomial time. Other results such as \cite{DMWX18, FMWX19b, pmlr-v134-mrt} handle the case where $ \delta $ (slowly) vanishes in $ n $, and $ \cite{wu2021settling} $ gives and exponential algorithm for general $ \delta $. These results are summarized in Table \ref{tab:main-results}.
+	\begin{table}[h]
+		\caption{Conditions for Exact Matching}
+		\centering
+		\begin{tabular}{ | c | c | c | } 
+			\hline
+			& Condition & Time Complexity \\
+			\hline
+			\cite{wu2021settling} & $np (1-\delta) \ge (1+\varepsilon) \log n$ if $\frac{p}{1-\delta} = o(1)$ &  Exponential \\
+			\hline
+			\cite{barak2019nearly} & $np \ge n^{o(1)}$, $1 - \delta \ge (\log n)^{-o(1)}$ & Quasipolynomial \\ 
+			\hline
+			\multirow{2}{*}{\cite{DMWX18}} & $np \ge (\log n)^{C}$, $\delta \le (\log n)^{-C}$ & \multirow{2}{*}{Polynomial} \\ \cline{2-2}
+			& $C \log n \le np \le e^{(\log \log n)^{C}}$, $\delta \le (\log \log n)^{-C}$ & \\ 
+			\hline
+			\cite{FMWX19b} & $np \ge (\log n)^{C}$, $\delta \le (\log n)^{-C}$ & Polynomial \\ 
+			\hline
+			\cite{pmlr-v134-mrt} & $np \ge (\log n)^{C}$, $\delta \le (\log \log n)^{-C}$ & Polynomial \\ 
+			\hline
+			\cite{mao2021exact} & $(1+\varepsilon) \log n \le np \le n^{\frac{1}{C \log \log n}}$, $\delta \le \min(\text{const}, \varepsilon/4)$ & Polynomial \\ 
+			\hline
+		\end{tabular}
+		\label{tab:main-results}
+	\end{table}
+
+	\subsubsection{Vertex Signatures}
+	
+	Many of these results were proven using some variety of vertex signatures. A signature $ f_i^A $ for a vertex $ i $ in $ A $ is some value that ``nearly uniquely" encodes some local information for $ i $. The idea to recover the latent permutation $ \pi^* $ between $ A $ and $ B $ is then to match the signatures $ f_i^A $ to the closest $ f_j^B $.
+	
+	A na\" ive example would be to simply take $ f_i^A=\deg_i^A $, the degree of vertex $ i $ in $ A $. This however is not ``unique" enough, as the vertex degrees are distributed with mean $ np $ and variance $ \sqrt{np} $, so we would have too many repeated signatures as, $ n \gg \sqrt{np} $, and could not recover $ \pi^* $.
+	
+	In the above \cite{DMWX18} they go one step further and use degree profiles as signatures. These profiles are vectors of the degrees of all neighboring vertices, and are sufficient to solve the case for vanishing $ \delta $. For the slightly different seeded version of the problem, \cite{mossel2020seeded} use the number of $ r $-neighbors, or the number of nodes within $ r $ steps of $ i $, as a signature. This is sufficient even for constant $ \delta $ in this case. Meanwhile for partial matching and constant $ \delta $,  \cite{ganassali2021correlation} use local trees of depth $ O(\log n) $ as signatures. This result combines these methods by first using the degrees of some ``nearby" vertices as a signature to get a partial matching, and then refining it using local degree information.
+	
+	\section{Results}
+	
+	The main theorems of the paper which I will try to sketch a proof of are the following results:
+	
+	\begin{theoremIntro}[Almost exact matching]
+		\label{thm:main-1-intro}
+		For any constant $ D>0 $ there are some constants $ \delta_0, c, C > 0 $ with the following property.
+		Let $G^\pi$ and $G'$ be the graphs given by the correlated Erd\H{o}s--R\'enyi graph model 		with parameters $n$, $p$, and $\delta$ such that for $ n $ large enough
+		$$
+		\log n \le np (1-\delta) \le n^{\frac{1}{C \log \log n}} . 
+		$$
+		Then there is a random function $F_{\sf al}$ defined on pairs of graphs on $[n]$ and taking values in the 
+		set of permutations on $[n]$,
+		such that for a
+		\begin{itemize}
+			\item $F_{\sf al}$ is independent from the graphs $G^\pi$ and $G'$,
+			\item $F_{\sf al}$ has expected time complexity $O(n^{2+o(1)})$, and
+			\item for any latent permutation $\pi:[n] \to [n]$,
+			\begin{align*}
+				\Pp\big\{F_{\sf al}(G^\pi,G')(i)\neq \pi(i)\mbox{ for at most $n^{1-c}$ indices $i \in n$}
+				\big\}\geq 1 - n^{-D}.
+			\end{align*}
+		\end{itemize}
+	\end{theoremIntro}
+	
+	We can then take this almost exact matching and produce an exact matching with high probability.
+	\begin{theoremIntro}[Exact matching]
+		\label{thm:main-2-intro}
+		For any constant  $\varepsilon\in (0,1]$, there
+		exist absolute constants $\delta_0, C > 0$ with the following property. 
+		Let $G^\pi$ and $G'$ be the graphs given by the correlated Erd\H{o}s--R\'enyi graph model with parameters $n$, $p$, and $\delta$ such that 
+		$$
+		(1+\varepsilon) \log n \le np \le n^{\frac{1}{C \log \log n}}, \qquad 
+		0 < \delta \leq \min(\delta_0,\varepsilon/4). 
+		$$
+		Then there is a random function $F_{\sf ex}$ defined on pairs of graphs on $[n]$ and taking values in the 
+		set of permutations on $[n]$,
+		such that 
+		\begin{itemize}
+			\item $F_{\sf ex}$ is independent from the graphs $G^\pi$ and $G'$,
+			\item $F_{\sf ex}$ has expected time complexity $n^{2+o(1)}$, and
+			\item for every permutation $\pi:[n] \to [n]$,
+			\begin{align*}
+				\Pp\big\{F_{\sf ex}(G^\pi,G')= \pi\big\}\ge 1 - n^{-10}-\exp(-\varepsilon pn/10).
+			\end{align*}
+		\end{itemize}
+	\end{theoremIntro}
+
+	\section{Algorithms}
+	The core part of this result is Theorem \ref{thm:main-1-intro}, which depends on a good choice of signatures. This signature is dependent on the following notion of partition trees.
+	
+	\subsection{Partition Trees}
+	For a graph $ A $ and vertex $ i $, let $ S(i,r) $ be the $ r $-sphere of $ i $ with the standard graph distance, namely all the vertices reachable from $ i $ within $ r $ steps. A partition tree $ T $ is then a complete binary tree of depth $ m=C\log\log n $ with nodes $ T_\sigma^r $ representing \emph{sets of vertices in $ A $} indexed by strings $ \sigma\in \{\pm 1\}^r $ for $ r = 1\ldots m $ constructed by Algorithm \ref{alg:ver-sig}.
+	
+	\begin{algorithm}[ht]
+		\normalsize
+		\caption{{\tt VertexSignature}}
+		\label{alg:ver-sig}
+	\begin{algorithmic}[1]
+		\Input a graph $A$ on the vertex set $[n]$, a vertex $i \in [n]$, and a depth parameter $m $ 
+		% and an edge density parameter $p \in (0,1)$
+		\Output a signature vector $f \in \R^{2^m}$
+		% \State{$d \leftarrow p (n-1)$}
+		% \Comment{{\it \small $d$ denotes the average degree}}
+		\State{$T_{\varnothing}^0 \leftarrow \{i\}$}
+		\Comment{{\it \small $\varnothing$ denotes the empty tuple}}
+		\For{$r = 0, \dots, m-1$}
+		\For{$\sigma \in \{-1,1\}^k$}
+		\State{$T_{(\sigma,+1)}^{r+1} \leftarrow \big\{j\in N(T_\sigma^k) \cap S(i,r+1) :\;\deg(j)\geq np \big\}$}
+		\State{$T_{(\sigma,-1)}^{r+1} \leftarrow \big\{j\in N(T_\sigma^k) \cap S(i,r+1) :\;\deg(j) < np \big\}$}
+		\EndFor
+		\EndFor
+		% \State{define $f \in \R^{2^m}$ by $f_s := \big| \edges_G\big(T_s^m, [n] \setminus \cB_G(i,m)\big) \big| - np \, |T_s^m|$ for $s \in \{-1,1\}^m$}
+		% \State{$\var \leftarrow np(1-p) |T_s^m|$}
+		\State{define $f(i) \in \R^{2^m}$ by $f(i)_\sigma := \sum_{j \in N(T_\sigma^m) \cap S(i,m+1)} \big( \deg(j) - 1 - np \big)$ for $\sigma \in \{-1,1\}^m$}
+		\State{\Return $f(i)$}
+	\end{algorithmic}
+\end{algorithm}
+
+Here $ N(T_\sigma^r) $ denotes the set of all neighbors of all vertices in $ T_\sigma^r $ in $ A $. In essence this algorithm constructs the partition $ T $ by splitting at each layer $ r $ between nodes with high degree and low degree to partition each layer into $ 2^r $ sets. The final signature comes from some degree metric on the $ m^{\text{th}} $ layer defined as $ \sum_{j \in N(T_\sigma^m) \cap S(i,m+1)} \big( \deg(j) - 1 - np \big) $, however other metrics that encode the degree information of this layer would work as well.
+
+One of the key assumptions to this algorithm actually producing a \emph{partition} of the $ r^{\text{th}} $ layer is that $ S(i,r) $ is a tree in $ A $. This is not always the case, but is so on most ($ n-n^{1-c} $ w.h.p) of $ [n] $. The details and difficulty of the analysis is mostly due to this, so I will just sweep it under the rug and assume every vertex has a tree in its $ m $-neighborhood, namely that $ S(i,m) $ has no cycles for all $ i\in [n] $ for $ m=C\log\log n $. WLOG let the latent permutation $ \pi^* $ be the identity for ease of notation.
+
+Given this we can say $ i $ has
+\begin{itemize}
+	\item $ |S(i,1)| \approx np \implies | T_\sigma^1 | \approx \frac{np}{2} $. Then the noise comes in for $ |T_\sigma^1(i, A)\cap T_\sigma^1(i,B)| \approx \frac{np}{2} (1-\kappa(\delta)) $ for some function $ \kappa $ that goes to $ 0 $ as $ \delta \to 0 $.
+	\item Repeating this argument we see $ |S(i,m)| \approx (np)^m \implies | T_\sigma^m | \approx \left(\frac{np}{2}\right)^m $ and the noise causes a similar $ |T_\sigma^m(i, A)\cap T_\sigma^m(i,B)| \approx \left(\frac{np}{2}\right)^m (1-\kappa(\delta))^m $.
+\end{itemize}
+Thus $ i $ in $ A $ and $ i $ in $ B $ have a large overlap and therefore similar signatures, while the overlap of $ i $ and $ j\neq i $ will be small:
+\begin{align}\label{eq}
+	\frac{(f_i^A - f_i^B)_\sigma^2}{\text{variance}} &\leq 1-(1-2\kappa(\delta))^m \leq \left(1-\frac{1}{c'}\right)^{C\log\log n} \leq 1-(\log n)^{C/c'} \text{ for some appropriate constant } c'\\
+	\frac{(f_i^A - f_j^B)_\sigma^2}{\text{variance}} &\approx 1.
+\end{align}
+With this we've almost created a good matching. The only issue remaining is that these signatures are not independent. To get around this we use sparsification.
+
+\subsection{Sparsification}
+To avoid the dependence of the partition trees of nearby vertices we take a uniformly random subset $ I\subset \{\pm 1\}^m $ with $ |I|=\text{polylog}(n) \ll 2^m $ of the leaves when comparing the signatures. Then we match $ i $ and $ j $ if and only if
+\[ \frac{1}{|I|}\sum_{\sigma\in I} \frac{(f_i^A - f_i^B)^2}{\text{variance}} \leq 1-\frac{1}{\sqrt{\log n}}. \]
+The $ \frac{1}{\sqrt{\log n}} $ is just a specific value for our $ (\log n)^{C/c'} $ in Equation (\ref{eq}).
+This process will then produce an almost exact matching $ \hat \pi $ with $ |\{ i:\hat \pi(i) \neq \pi^*(i) \}|\leq 4n^{1-c} $ with probability $ 1-n^{-10} $ (coming from proportion of ``good" vertices).
+
+\subsection{Exact matching}
+We use an iterative procedure to prove Theorem \ref{thm:main-2-intro} defined in Algorithm \ref{alg:refine}. This would work for any $ \hat \pi $ with $ |\{ i:\hat \pi(i) \neq \pi^*(i) \}| \leq \lambda n $, a weaker condition than what we have from Theorem \ref{thm:main-1-intro}. The algorithm, on each iteration, takes only those vertices we can be sure of being the same using their local neighborhoods, and then just extends the permutation arbitrarily.
+
+\begin{algorithm}[ht]
+	\normalsize
+	\caption{{\tt RefinedMatching}}
+	\label{alg:refine}
+	\begin{algorithmic}[1]
+		\Input Two graphs $A$ and $B$ on $[n]$, a permutation $\hat \pi : [n] \to [n]$, and a parameter $\varepsilon > 0$
+		% and an edge density parameter $p \in (0,1)$
+		\Output A permutation $\tilde \pi : [n] \to [n]$
+		\State{$\pi_0 \leftarrow \hat \pi$}
+		\For{$\ell = 1, \dots, \lceil \log_2 n \rceil$}
+		\For{$i = 1, \dots, n$}
+		\State{\textbf{if} there is a vertex $i' \in [n]$ such that}
+		\State{\qquad \textbullet \  $\big|\pi_{\ell-1}^{-1}\big(N_{A}(i)\big)\cap N_{B}(i')\big|\geq \varepsilon^2 pn$}
+		\State{\qquad \textbullet \  $\big|\pi_{\ell-1}^{-1}\big(N_{A}(i)\big)\cap N_{B}(j')\big|< \varepsilon^2 pn$ for all $j'\in[n]\setminus\{i'\}$}
+		\State{\qquad \textbullet \  $\big|\pi_{\ell-1}^{-1}\big(N_{A}(j)\big)\cap N_{B}(i')\big|<\varepsilon^2 pn$ for all $j\in[n]\setminus\{ i\}$}
+		\State{\textbf{then}}
+		\State{\qquad $\pi_{\ell}(i') \leftarrow i$}
+		\State{\textbf{end if}}
+		\EndFor
+		\State{extend $\pi_\ell$ to a permutation on $[n]$ in an arbitrary way}
+		\EndFor
+		\State{$\tilde \pi \leftarrow \pi_{\lceil \log_2 n \rceil}$}
+		\State{\Return $\tilde \pi$}
+	\end{algorithmic}
+\end{algorithm}
+This algorithm is correct because in each iteration, the partial matching $ \pi_{\ell} $  is an improvement over $ \pi_{\ell-1} $ with high probability. For example the first step has $ |\{ i:\pi_1(i)\neq \pi^*(i) \}| \leq \lambda n/2 $ with probability $ 1-n^{-\varepsilon/10} $, which means the next iteration will have $ |\{ i:\pi_\ell(i)\neq \pi^*(i) \}| \leq \lambda n/2^\ell $ with high probability (see section 7 of \cite{mao2021exact} for more details). This means $ \pi_{\lceil \log_2 n \rceil} = \pi^* $ is an exact matching. Also, the algorithm runs in $ O(n^2) $ for each iteration, and therefore terminates in $ O(n^{2+o(1)}) $ producing an exact matching.
+	
+	\bibliographystyle{alpha}
+	\bibliography{ref}
+\end{document}

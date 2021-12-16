@@ -1,0 +1,150 @@
+\documentclass[a4paper]{article}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{paralist}
+\usepackage{epstopdf}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyvrb}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{float}
+\usepackage{paralist}
+\usepackage[svgname]{xcolor}
+\usepackage{enumerate}
+\usepackage{array}
+\usepackage{times}
+\usepackage{tikz}
+\usepackage{url}
+\usepackage{fancyhdr}
+\usepackage{comment}
+\usepackage{environ}
+\usepackage{times}
+\usepackage{textcomp}
+\usepackage{caption}
+
+
+\urlstyle{rm}
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[]
+\newtheorem{conjecture}{Conjecture}[]
+\newtheorem{example}{Example}[]
+\newtheorem{theorem}{Theorem}[]
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+\floatname{algorithm}{Procedure}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\Nat}{\mathbb{N}}
+\newcommand{\br}[1]{\{#1\}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+
+\newcommand{\vc}[1]{\boldsymbol{#1}}
+\newcommand{\xv}{\vc{x}}
+\newcommand{\Sigmav}{\vc{\Sigma}}
+\newcommand{\alphav}{\vc{\alpha}}
+\newcommand{\muv}{\vc{\mu}}
+
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+\def\x{\mathbf x}
+\def\y{\mathbf y}
+\def\w{\mathbf w}
+\def\v{\mathbf v}
+\def\E{\mathbb E}
+\def\V{\mathbb V}
+
+% TO SHOW SOLUTIONS, include following (else comment out):
+\newenvironment{soln}{
+	\leavevmode\color{blue}\ignorespaces
+}{}
+
+
+\hypersetup{
+	%    colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
+\geometry{
+	top=1in,            % <-- you want to adjust this
+	inner=1in,
+	outer=1in,
+	bottom=1in,
+	headheight=3em,       % <-- and this
+	headsep=2em,          % <-- and this
+	footskip=3em,
+}
+
+
+\pagestyle{fancyplain}
+\lhead{\fancyplain{}{Homework 1}}
+\rhead{\fancyplain{}{CS 760 Machine Learning}}
+\cfoot{\thepage}
+
+\title{\textsc{Homework 2}} % Title
+
+%%% NOTE:  Replace 'NAME HERE' etc., and delete any "\red{}" wrappers (so it won't show up as red)
+
+\author{
+	Daniel Szabo
+} 
+
+\date{}
+
+\begin{document}
+	
+	\maketitle 
+	
+	\begin{enumerate}
+		\item For each $ i $, $ v_{i,1},\ldots, v_{i,k_i} $ are linearly independent by definition. For $ i\neq j $ consider $ V_i=\text{span} (v_{i,1},\ldots, v_{i,k_i}) = \ker(T-\lambda_i I) $ and $ V_j=\text{span}(v_{j,1},\ldots, v_{j,k_j}) = \ker(T-\lambda_j I) $. Take $ v\in V_i\cap V_j $. Then $ Tv-\lambda_i I = Tv - \lambda_j I = 0 $, so $ Tv=\lambda_iv = \lambda_jv $ for $ \lambda_i\neq \lambda_j \implies v=0 $. Thus $ V_i $ and $ V_j $ are linearly independent. The same argument can be made for any union of eigenspaces, so $ v_{1,1},\ldots, v_{1,k_1},\ldots, v_{n,1},\ldots, v_{n,k_n} $ are all linearly independent.
+		
+		\item We saw in class that $ T $ has an eigenbasis iff each block in the Jordan Form of $ T $ is $ 1\times 1 $, which means the Jordan Form of $ T $ is diagonal, so $ T $ is diagonalizable.
+		
+		\item To see this matrix is not diagonalizable, look at the algebraic and geometric multiplicity of its only eigenvalue, 2. The characteristic polynomial of $ T $ is $ \det(T-\lambda I) = (2-\lambda)^3 $, so the algebraic multiplicity of $ 2 $ is $ 3 $. The geometric multiplicity meanwhile is $ \dim\ker(T-2I) = \dim\ker\left(\begin{matrix}
+			0&0&1\\
+			0&0&6\\
+			0&0&0
+		\end{matrix}\right) = 2 $, and thus $ T $ is not diagonalizable.
+	
+		\item Repeating the same methodology as above, we see $ S $ is diagonalizable. The characteristic polynomial is $ (2-\lambda)^2(1-\lambda) $, so $ 2 $ only has an algebraic multiplicity of $ 2 $. The geometric multiplicity is $ \dim\ker(S-2I) = \dim\ker\left(\begin{matrix}
+			1&0&1\\
+			0&0&0\\
+			0&0&0
+		\end{matrix}\right) = 2 $, so $ S $ is diagonalizable.
+	
+		\item Just use the JNF, which must exist. Let $ D $ be the diagonal matrix of eigenvalues and $ N $ the $ 1 $s and $ 0 $s on the off diagonal. $ D $ is diagonal, and therefore commutes with any matrix, in particular $ DN=ND $. Also $ N $ is strictly upper diagonal and therefore nilpotent. Therefore there is a basis in which $ T=D+N $ and $ DN=ND $ for $ D $ diagonal and $ N $ nilpotent.
+	\end{enumerate}
+	
+	\bibliographystyle{apalike}
+	
+	
+	%----------------------------------------------------------------------------------------
+	
+	
+\end{document}

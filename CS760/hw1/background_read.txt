@@ -1,0 +1,13 @@
+Here are some useful resources for filling in this background.
+
+Probability
+-- Lecture notes: http://www.cs.cmu.edu/~aarti/Class/10701/recitation/prob_review.pdf
+
+Linear Algebra:
+-- Short video lectures by Prof. Zico Kolter: http://www.cs.cmu.edu/~zkolter/course/linalg/outline.html
+-- Handout associated with above video: http://www.cs.cmu.edu/~zkolter/course/linalg/linalg_notes.pdf
+-- Book: Gilbert Strang. Linear Algebra and its Applications. HBJ Publishers.
+
+Big-O notation:
+-- http://www.stat.cmu.edu/~cshalizi/uADA/13/lectures/app-b.pdf
+-- http://www.cs.cmu.edu/~avrim/451f13/recitation/rec0828.pdf

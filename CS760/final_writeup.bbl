@@ -1,0 +1,33 @@
+\begin{thebibliography}{1}
+
+\bibitem{StatPhys}
+Chung-I Chou and S.P. Li.
+\newblock Taming the gerrymander—statistical physics approach to political
+  districting problem.
+\newblock {\em Physica A: Statistical Mechanics and its Applications},
+  369(2):799--808, 2006.
+
+\bibitem{ReCom}
+Daryl DeFord, Moon Duchin, and Justin Solomon.
+\newblock Recombination: A family of markov chains for redistricting.
+\newblock {\em Harvard Data Science Review}, 3 2021.
+\newblock https://hdsr.mitpress.mit.edu/pub/1ds8ptxu.
+
+\bibitem{TDS}
+Moon Duchin, Tom Needham, and Thomas Weighill.
+\newblock The (homological) persistence of gerrymandering.
+\newblock {\em Foundations of Data Science}, 0:--, 2021.
+
+\bibitem{KenExpert}
+Kenneth~R. Mayer.
+\newblock {\em \textup{William Whitford v. Beverly Gill 3:15-CV-00421-jdp
+  (10/26/2018) Expert Report}}.
+
+\bibitem{scikit-learn}
+F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
+  M.~Blondel, P.~Prettenhofer, R.~Weiss, V.~Dubourg, J.~Vanderplas, A.~Passos,
+  D.~Cournapeau, M.~Brucher, M.~Perrot, and E.~Duchesnay.
+\newblock Scikit-learn: Machine learning in {P}ython.
+\newblock {\em Journal of Machine Learning Research}, 12:2825--2830, 2011.
+
+\end{thebibliography}

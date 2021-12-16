@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: final_writeup.aux
+The style file: plain.bst
+Database file #1: refs.bib
+Warning--empty publisher in KenExpert
+Warning--empty year in KenExpert
+You've used 5 entries,
+            2118 wiz_defined-function locations,
+            528 strings with 5007 characters,
+and the built_in function-call counts, 1914 in all, are:
+= -- 168
+> -- 139
+< -- 0
++ -- 56
+- -- 50
+* -- 162
+:= -- 346
+add.period$ -- 15
+call.type$ -- 5
+change.case$ -- 39
+chr.to.int$ -- 0
+cite$ -- 7
+duplicate$ -- 55
+empty$ -- 115
+format.name$ -- 50
+if$ -- 368
+int.to.chr$ -- 0
+int.to.str$ -- 5
+missing$ -- 6
+newline$ -- 28
+num.names$ -- 10
+pop$ -- 40
+preamble$ -- 1
+purify$ -- 35
+quote$ -- 0
+skip$ -- 34
+stack$ -- 0
+substring$ -- 81
+swap$ -- 5
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 18
+warning$ -- 2
+while$ -- 14
+width$ -- 6
+write$ -- 54
+(There were 2 warnings)
